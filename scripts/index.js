@@ -18,9 +18,10 @@ function GetRealtimeValue () {
    request.send();
 }
 
-
-GetRealtimeValue();
-
-setInterval(() => {
+window.onload = function () {
     GetRealtimeValue();
-}, 60000);
+
+    setInterval(() => {
+        GetRealtimeValue();
+    }, 60000);
+}
