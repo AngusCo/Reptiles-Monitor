@@ -1,7 +1,8 @@
 var div_temp = document.querySelector(".temperature");
 var div_rh = document.querySelector(".humidity");
 
-setInterval(() => {
+
+function GetRealtimeValue () {
     var requestURL = 'https://api.thingspeak.com/channels/929404/feeds.json?results=1';
     var request = new XMLHttpRequest();
 
@@ -15,4 +16,11 @@ setInterval(() => {
     };
 
    request.send();
+}
+
+
+GetRealtimeValue();
+
+setInterval(() => {
+    GetRealtimeValue();
 }, 60000);
