@@ -1,0 +1,45 @@
+body {
+    position: absolute;
+    bottom: 0px;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+.section-temperature,
+.section-humidity {
+    position: relative;
+    width: 100%;
+    height: 50%;
+    
+}
+
+.section-temperature {
+    background: rgb(252, 198, 140);
+}
+
+.section-humidity {
+    background: rgb(105, 160, 210);
+}
+
+.temperature,
+.humidity {
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    font-size: 30px;
+    color: white;
+    line-height: 40px;
+    border: .5px solid white;
+}
+
+.temperature {
+    bottom: 0%;
+
+}
+
+.humidity {
+    top: 0%;
+
+}
