@@ -5,17 +5,20 @@
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
 		<link rel="stylesheet" type="text/css" href="styles/reset.css">
 		<link rel="stylesheet" type="text/css" href="styles/style.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://unpkg.com/konva@4.0.18/konva.min.js"></script>
 		<title>爬蟲溫濕度監視器</title>
 	</head>
 
 	<body>
 		<section class="section-temperature">
-			<iframe src="https://thingspeak.com/channels/929404/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-			<div class="temperature">99</div>
+			<div id="div-temp-curve"></div>
+			<div class="temperature">0</div>
 		</section>
 
 		<section class="section-humidity">
-			<div class="humidity">99</div>
+			<div class="humidity">0</div>
+			<div id="div-rh-curve"></div>
 		</section>
 	</body>
 	<script src="scripts/index.js"></script>
