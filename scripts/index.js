@@ -9,7 +9,7 @@ var rhList = [];
 var timeList = [];
 
 function GetRealtimeValue () {
-    var requestURL = 'https://api.thingspeak.com/channels/929404/feeds.json?results=1';
+    var requestURL = 'https://api.thingspeak.com/channels/929404/feeds.json?offset=8&results=1';
     var request = new XMLHttpRequest();
 
     request.open('GET', requestURL, true);
@@ -34,6 +34,8 @@ function GetRealtimeValue () {
                 document.querySelector(".humidity").innerHTML = Math.round(this.countNum);
             }
         });
+
+        document.querySelector("footer").innerHTML = "Last Updated on " + data["feeds"][0]["created_at"].substring(0, 16).replace("T", " at ");
     };
 
     request.send();
