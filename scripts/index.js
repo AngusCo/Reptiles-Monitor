@@ -1,4 +1,4 @@
-const sampleDays = 5;
+const sampleDays = 4;
 const strokeWidth = 4;
 const circleRadius = 10;
 const circleOpacity = .3;
@@ -6,6 +6,7 @@ const strokeColor = "white";
 
 var tempList = [];
 var rhList = [];
+var timeList = [];
 
 function GetRealtimeValue () {
     var requestURL = 'https://api.thingspeak.com/channels/929404/feeds.json?results=1';
@@ -63,6 +64,7 @@ function GetValueList () {
         for (var i = 0; i < length; i++) {
             tempList.push(Math.round(data["feeds"][i]["field1"]));
             rhList.push(Math.round(data["feeds"][i]["field2"]));
+            timeList.push(data["feeds"][i]["created_at"].substring(8, 13).replace("T", "\n一\n"));
         }
 
         console.log("原始溫度資料: " + tempList);
@@ -117,6 +119,7 @@ function DrawCurve (list, id) {
     // Draw Points
     for (var i = 0; i < list.length; i+=2)
     {
+        // 外光暈
         var alphaCircle = new Konva.Circle({
             x: list[i],
             y: list[i+1],
@@ -126,6 +129,7 @@ function DrawCurve (list, id) {
         });
         layer.add(alphaCircle);
 
+        // 中心點
         var centerCircle = new Konva.Circle({
             x: list[i],
             y: list[i+1],
@@ -134,17 +138,34 @@ function DrawCurve (list, id) {
         });
         layer.add(centerCircle);
 
+        // 數值
+        var textList = id == "div-temp-curve" ? tempList : rhList;
         var valueText = new Konva.Text({
             x: list[i],
             y: list[i+1],
-            text: tempList[i/2],
+            text: textList[i/2],
             fontSize: 14,
             fontFamily: "Verdana",
             fill: strokeColor,
+            align: "center"
         });
         valueText.offsetX(10);
-        valueText.offsetY(-15);
+        valueText.offsetY(id == "div-temp-curve" ? -20 : 30);
         layer.add(valueText);
+
+        // 日期
+        var dateText = new Konva.Text({
+            x: list[i],
+            y: list[i+1],
+            text: timeList[i/2],
+            fontSize: 14,
+            fontFamily: "Verdana",
+            fill: strokeColor,
+            align: "center"
+        });
+        dateText.offsetX(10);
+        dateText.offsetY(id == "div-temp-curve" ? 60 : -20);
+        layer.add(dateText);
     }
 
     // Show
