@@ -187,8 +187,15 @@ $(document).ready(function() {
     GetRealtimeValue();
     GetValueList();
 
-    // 每分鐘更新一次
+    // 解析度變更時更新
+    window.addEventListener("resize", function(){
+        GetRealtimeValue();
+        GetValueList();
+    });
+
+    // 每分鐘更新
     setInterval(() => {
         GetRealtimeValue();
+        GetValueList();
     }, 60000);
 });
