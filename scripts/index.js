@@ -62,6 +62,9 @@ function GetValueList () {
         var tempPos = [];
         var rhPos = [];
 
+        tempList = [];
+        rhList = [];
+
         // 填入溫濕度資料
         for (var i = 0; i < length; i++) {
             tempList.push(Math.round(data["feeds"][i]["field1"]));
