@@ -64,6 +64,7 @@ function GetValueList () {
 
         tempList = [];
         rhList = [];
+        timeList = [];
 
         // 填入溫濕度資料
         for (var i = 0; i < length; i++) {
