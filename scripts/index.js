@@ -42,15 +42,10 @@ function GetRealtimeValue () {
 }
 
 function GetValueList () {
-    var requestURL = 'https://api.thingspeak.com/channels/929404/feeds.json?offset=8&timescale=720';
-  
-    var now = new Date();
-    var yymm = now.getFullYear() + "-" + (now.getMonth() + 1) + "-";
-    var time = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
-    var start = "start=" + yymm + (now.getDate() - sampleDays) + "T" + time;
-    var end = "end=" + yymm + now.getDate() + "T" + time;
+    var requestURL = 
+        "https://api.thingspeak.com/channels/929404/feeds.json?offset=8&timescale=720"
+        + GetQueryParameters();
 
-    requestURL += "&" + start + "&" + end;
     console.log(requestURL);
     
     var request = new XMLHttpRequest();
@@ -58,10 +53,11 @@ function GetValueList () {
     
     request.onload = function() {
         var data = JSON.parse(this.response);
-        var length = data.feeds.length; // 資料長度
+        var length = data.feeds.length;     // 資料長度
         var tempPos = [];
         var rhPos = [];
 
+        // 清空陣列內容
         tempList = [];
         rhList = [];
         timeList = [];
@@ -185,6 +181,39 @@ function DrawCurve (list, id) {
     //         y: this.absolutePosition().y
     //     };
     // });
+}
+
+function GetQueryParameters () {
+    // 取樣結束時間
+    var now = new Date();
+
+    var end = "&end="
+        + now.getFullYear() + "-"
+        + (now.getMonth() + 1) + "-"
+        + now.getDate() + "T"
+        + now.getHours() + ":"
+        + now.getMinutes() + ":"
+        + now.getSeconds();
+
+    // 回推取樣開始時間
+    var startTime = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() - sampleDays,
+        now.getHours(),
+        now.getMinutes(),
+        now.getSeconds()
+    );
+
+    var start = "&start="
+        + startTime.getFullYear() + "-"
+        + (startTime.getMonth() + 1) + "-"
+        + startTime.getDate() + "T"
+        + startTime.getHours() + ":"
+        + startTime.getMinutes() + ":"
+        + startTime.getSeconds();
+
+    return start + end;
 }
 
 $(document).ready(function() {
