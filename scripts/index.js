@@ -94,8 +94,8 @@ function GetValueList () {
 
         // 換算成 Y 軸座標
         for (var i = 0; i < length; i++) {
-            tempPos[i] = 300 - (tempList[i] - 10) * 10;
-            rhPos[i] = (90 - rhList[i]) * 5;
+            tempPos[i] = 210 - (tempList[i] - 10) * 5;
+            rhPos[i] = (100 - rhList[i]) * 2.7 + 80;
         }
 
         // 加入 X 軸座標
@@ -139,7 +139,7 @@ function DrawCurve (list, id) {
     layer.add(line);
 
     // Draw Points
-    for (var i = 0; i < list.length; i+=2)
+    for (var i = 0; i < list.length; i += 2)
     {
         // 外光暈
         var alphaCircle = new Konva.Circle({
@@ -162,9 +162,12 @@ function DrawCurve (list, id) {
 
         // 數值
         var textList = id == "div-temp-curve" ? tempList : rhList;
+        // var valueOffsetY = id == "div-temp-curve" ? 215 : 70;
+        // var dateOffsetY = id == "div-temp-curve" ? 5 : 255;
         var valueText = new Konva.Text({
             x: list[i],
             y: list[i+1],
+            // y: valueOffsetY,
             text: textList[i/2],
             fontSize: 14,
             fontFamily: "Verdana",
@@ -172,13 +175,14 @@ function DrawCurve (list, id) {
             align: "center"
         });
         valueText.offsetX(10);
-        valueText.offsetY(id == "div-temp-curve" ? -20 : 30);
+        valueText.offsetY(id == "div-temp-curve" ? -25 : 35);
         layer.add(valueText);
 
         // 日期
         var dateText = new Konva.Text({
             x: list[i],
             y: list[i+1],
+            // y: dateOffsetY,
             text: timeList[i/2],
             fontSize: 14,
             fontFamily: "Verdana",
@@ -186,7 +190,7 @@ function DrawCurve (list, id) {
             align: "center"
         });
         dateText.offsetX(10);
-        dateText.offsetY(id == "div-temp-curve" ? 60 : -20);
+        dateText.offsetY(id == "div-temp-curve" ? 65 : -25);
         layer.add(dateText);
     }
 
