@@ -8,6 +8,26 @@ var tempList = [];
 var rhList = [];
 var timeList = [];
 
+
+$(document).ready(function() {
+
+    GetRealtimeValue();
+    GetValueList();
+
+    // 解析度變更時更新
+    window.addEventListener("resize", function(){
+        GetRealtimeValue();
+        GetValueList();
+    });
+
+    // 每分鐘更新
+    setInterval(() => {
+        GetRealtimeValue();
+        GetValueList();
+    }, 60000);    
+});
+
+
 function GetRealtimeValue () {
     var requestURL = 'https://api.thingspeak.com/channels/929404/feeds.json?offset=8&results=1';
     var request = new XMLHttpRequest();
@@ -75,7 +95,7 @@ function GetValueList () {
         // 換算成 Y 軸座標
         for (var i = 0; i < length; i++) {
             tempPos[i] = 300 - (tempList[i] - 10) * 10;
-            rhPos[i] = 300 - (rhList[i] - 40) * 5;
+            rhPos[i] = (90 - rhList[i]) * 5;
         }
 
         // 加入 X 軸座標
@@ -173,14 +193,6 @@ function DrawCurve (list, id) {
     // Show
     stage.add(layer);
     layer.draw();
-
-    // 限制拖移軸向
-    // stage.dragBoundFunc(function(pos){
-    //     return {
-    //         x: pos.x,
-    //         y: this.absolutePosition().y
-    //     };
-    // });
 }
 
 function GetQueryParameters () {
@@ -216,19 +228,8 @@ function GetQueryParameters () {
     return start + end;
 }
 
-$(document).ready(function() {
-    GetRealtimeValue();
-    GetValueList();
 
-    // 解析度變更時更新
-    window.addEventListener("resize", function(){
-        GetRealtimeValue();
-        GetValueList();
-    });
+    
 
-    // 每分鐘更新
-    setInterval(() => {
-        GetRealtimeValue();
-        GetValueList();
-    }, 60000);
-});
+
+
