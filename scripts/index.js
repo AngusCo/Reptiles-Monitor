@@ -92,10 +92,15 @@ function GetValueList () {
         console.log("原始溫度資料: " + tempList);
         console.log("原始濕度資料: " + rhList);
 
+        var maxT = Math.max(...tempList);
+        var minT = Math.min(...tempList);
+        var maxR = Math.max(...rhList);
+        var minR = Math.min(...rhList);
+
         // 換算成 Y 軸座標
         for (var i = 0; i < length; i++) {
-            tempPos[i] = 210 - (tempList[i] - 10) * 5;
-            rhPos[i] = (100 - rhList[i]) * 2.7 + 80;
+            tempPos[i] = 160 - (tempList[i] - minT) * (90 / (maxT - minT));
+            rhPos[i] = 130 - (rhList[i] - minR) * (90 / (maxR - minR));
         }
 
         // 加入 X 軸座標
@@ -106,8 +111,6 @@ function GetValueList () {
             tempPos.splice(i * 2, 0, (i + 1) * spacing);
             rhPos.splice(i * 2, 0, (i + 1) * spacing);
         }
-        console.log("溫度曲線座標[x1,y1,x2,y2...]: " + tempPos);
-        console.log("濕度曲線座標[x1,y1,x2,y2...]: " + rhPos);
 
         DrawCurve(tempPos, "div-temp-curve");
         DrawCurve(rhPos, "div-rh-curve");
@@ -117,12 +120,12 @@ function GetValueList () {
 }
 
 function DrawCurve (list, id) {
+    
     // Define stage
     var stage = new Konva.Stage({
         container: id,
         width: window.innerWidth,
-        height: 300,
-        // draggable: true
+        height: 200,
     });
 
     // Define layer
@@ -162,12 +165,10 @@ function DrawCurve (list, id) {
 
         // 數值
         var textList = id == "div-temp-curve" ? tempList : rhList;
-        // var valueOffsetY = id == "div-temp-curve" ? 215 : 70;
-        // var dateOffsetY = id == "div-temp-curve" ? 5 : 255;
+
         var valueText = new Konva.Text({
             x: list[i],
             y: list[i+1],
-            // y: valueOffsetY,
             text: textList[i/2],
             fontSize: 14,
             fontFamily: "Verdana",
@@ -182,7 +183,6 @@ function DrawCurve (list, id) {
         var dateText = new Konva.Text({
             x: list[i],
             y: list[i+1],
-            // y: dateOffsetY,
             text: timeList[i/2],
             fontSize: 14,
             fontFamily: "Verdana",
