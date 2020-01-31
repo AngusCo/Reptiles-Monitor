@@ -83,11 +83,11 @@ body {
 }
 
 #div-temp-curve {
-    top: 15%;
+    bottom: 100px;
 }
 
 #div-rh-curve {
-    bottom: 15%;
+    top: 100px;
 }
 
 footer {
